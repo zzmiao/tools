@@ -1,8 +1,9 @@
 # tools
 前端常用js工具方法
-
+#
 module.exports = {
 	isEmail, //邮箱
+	
 	isMobile, //手机号码
 	isPhone, //电话号码
 	isURL,
