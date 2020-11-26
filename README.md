@@ -2,6 +2,7 @@
 前端常用js工具方法
 #
 module.exports = {
+
 	isEmail, //邮箱
 	isMobile, //手机号码
 	isPhone, //电话号码
@@ -53,4 +54,5 @@ module.exports = {
 	timeStampToDate, //时间戳转换成时间
 	DateToUnix, //时间转换成时间戳
 	intervalDays, //获取两个时间点之间相差多少天
+	
 }
