@@ -719,8 +719,9 @@ function rpx2px(rpx, windowWidth) {
 }
 /**
  * 将 日期对象/日期time数值 格式化为 字符串 形式
- * @param date 要格式化的 日期对象/日期time数值 如1575126782000
- * @param fmt 格式化形式 默认 年-月-日 时:分:秒 如yyyyMMdd
+ * @param date 要格式化的 日期对象/日期time数值 如1575126782000|new Date()
+ * @param fmt 格式化形式 默认 年-月-日 时:分:秒 如yyyyMMdd|yyyy-MM-dd HH:mm:ss|y|M|d|q|w|H|h|m|s
+ * return yyyyMMdd|yyyy-MM-dd HH:mm:ss|y|M|d|q|w|H|h|m|s
  */
 function formatDate(date, fmt) {
 	date = +date;
