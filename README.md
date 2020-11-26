@@ -3,7 +3,6 @@
 #
 module.exports = {
 	isEmail, //邮箱
-	
 	isMobile, //手机号码
 	isPhone, //电话号码
 	isURL,
