@@ -1083,7 +1083,6 @@ function getDateMonthsToDate(date, months) {
  * @param {String} value 需要检查的值
  */
 function getArray(arrays, name, value) {
-	console.log(name)
 	var getArrayIndex = function(arr, obj) {
 		var i = arr.length;
 		while(i--) {
@@ -1106,7 +1105,7 @@ function getArray(arrays, name, value) {
 }
 module.exports = {
 	isEmail, //邮箱
-	isChinese,
+	isChinese,//是否中文
 	isMobile, //手机号码
 	isPhone, //电话号码
 	isURL,
