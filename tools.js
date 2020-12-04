@@ -5,6 +5,12 @@ function isEmail(s) {
 	return /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
 }
 /**
+ * 姓名只能输入中文
+ */
+function isChinese(s) {
+	return !(/[^\u4E00-\u9FA5]/g.test(s));
+}
+/**
  * 手机号码
  */
 function isMobile(s) {
@@ -995,8 +1001,112 @@ function intervalDays(beginDT, endDT) {
 	var seconds = Math.round(leave3 / 1000)
 	return days;
 }
+/***
+ * 获取一个月多少天
+ * @param{String} year 年数
+ * @param{String} month 月数
+ */
+function getDays(year, month) {
+	//判断是否时闰年:平年28天、闰年29天
+	var days = ""; //一个月最大天数
+	var isRUNYear = function(year) {
+		if((year % 100 != 0 && year % 4 == 0) || year % 400 == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	//闰年并且是二月份
+	if(isRUNYear(year) && month == "2") {
+		days = 29;
+	} else {
+		if(month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12") {
+			days = 31;
+		} else if(month == "2") {
+			days = 28;
+		} else {
+			days = 30;
+		}
+	}
+
+	return days;
+}
+/**
+ * 获取具体时间后几个月的时间：如：2020-11-30==》3月==》2020-02-28
+ * @param{String} date 日期：如2020-11-30
+ * @param{String} months 月数 ：如：3个月
+ * return 2020-02-28
+ */
+function getDateMonthsToDate(date, months) {
+	var dateArr = date.split("-");
+	var y = parseInt(dateArr[0]); //年
+	var m = parseInt(dateArr[1]); //年
+	var d = parseInt(dateArr[2]); //年
+	months = parseInt(months)
+	//判断是否时闰年:平年28天、闰年29天
+
+	var isRUNYear = function(year) {
+		if((year % 100 != 0 && year % 4 == 0) || year % 400 == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	var getMaxDays = function(year, month) {
+		var maxDay = ""; //一个月最大天数
+		//闰年并且是二月份
+		if(isRUNYear(year) && month == "2") {
+			maxDay = 29;
+		} else {
+			if(month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12") {
+				maxDay = 31;
+			} else if(month == "2") {
+				maxDay = 28;
+			} else {
+				maxDay = 30;
+			}
+		}
+		return maxDay;
+	}
+	m = m + months;
+	y = y + Math.floor(m / 12);
+	m = (m % 12) == 0 ? 12 : (m % 12);
+	y = (m % 12) == 0 ? (y - 1) : y;
+	var maxDay = getMaxDays(y, m);
+	d = (d > maxDay ? maxDay : d);
+	return y + "-" + (m >= 10 ? m : "0" + m) + "-" + (d >= 10 ? d : "0" + d);
+}
+/**
+ * 根据传值获取对应的下标
+ * @param {Array} array 数组
+ * @param {String} name 对应检查的键值名
+ * @param {String} value 需要检查的值
+ */
+function getArray(arrays, name, value) {
+	console.log(name)
+	var getArrayIndex = function(arr, obj) {
+		var i = arr.length;
+		while(i--) {
+			if(arr[i][name] === obj) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	//采用prototype原型实现方式，查找元素在数组中的索引值
+	Array.prototype.getArrayIndex = function(obj) {
+		for(var i = 0; i < this.length; i++) {
+			if(this[i][name] === obj) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	return arrays.getArrayIndex(value)
+}
 module.exports = {
 	isEmail, //邮箱
+	isChinese,
 	isMobile, //手机号码
 	isPhone, //电话号码
 	isURL,
@@ -1047,4 +1157,7 @@ module.exports = {
 	timeStampToDate, //时间戳转换成时间
 	DateToUnix, //时间转换成时间戳
 	intervalDays, //获取两个时间点之间相差多少天
+	getDays, //获取一个月多少天
+	getDateMonthsToDate, //获取具体时间后几个月的时间
+	getArray, //根据传值获取对应的下标
 }
