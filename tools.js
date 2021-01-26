@@ -1040,8 +1040,8 @@ function getDays(year, month) {
 function getDateMonthsToDate(date, months) {
 	var dateArr = date.split("-");
 	var y = parseInt(dateArr[0]); //年
-	var m = parseInt(dateArr[1]); //年
-	var d = parseInt(dateArr[2]); //年
+	var m = parseInt(dateArr[1]); //月
+	var d = parseInt(dateArr[2]); //日
 	months = parseInt(months)
 	//判断是否时闰年:平年28天、闰年29天
 
@@ -1103,9 +1103,98 @@ function getArray(arrays, name, value) {
 	}
 	return arrays.getArrayIndex(value)
 }
+/**
+ * 截取字符串
+ */
+function substring(str, start, end) {
+	for(var i = 0; i < str.length;) {
+
+	}
+}
+/**
+ * 根据日期字符串获取星期几
+ * @param dateString 日期字符串（如：2020-05-02）
+ * @returns {String}
+ */
+function getWeek(dateString) {
+	var dateArray = dateString.split("-");
+	date = new Date(dateArray[0], parseInt(dateArray[1] - 1), dateArray[2]);
+	return "周" + "日一二三四五六".charAt(date.getDay());
+};
+/**
+ * 获取具体时间之后或者之前的几天日期
+ * @param date{String} 日期 （如："2021-01-27"）
+ * @param day{Number} 天数 （如：7（7天之后）或者-7（7天之前））
+ */
+
+function getBeforeOrAfterDay(date, day) {
+	if(date != "") {
+		var time = new Date(date);
+	} else {
+		var time = new Date();
+	}
+	time.setDate(time.getDate() + day); //获取Day天后的日期 
+	var y = time.getFullYear();
+	var m = time.getMonth() + 1;
+	var d = time.getDate();
+	return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d);
+}
+/**
+ * 获取具体时间前几个月的时间：如：2020-11-30==》3月==》2020-08-30
+ * @param{String} date 日期：如2020-11-30
+ * @param{String} months 月数 ：如：3个月
+ * return 2020-08-30
+ */
+function getBeforeMonthsToDate(date, months) {
+	var dateArr = date.split("-");
+	var y = parseInt(dateArr[0]); //年
+	var m = parseInt(dateArr[1]); //月
+	var d = parseInt(dateArr[2]); //日
+	months = parseInt(months)
+	//判断是否时闰年:平年28天、闰年29天
+
+	var isRUNYear = function(year) {
+		if((year % 100 != 0 && year % 4 == 0) || year % 400 == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	var getMaxDays = function(year, month) {
+		var maxDay = ""; //一个月最大天数
+		//闰年并且是二月份
+		if(isRUNYear(year) && month == "2") {
+			maxDay = 29;
+		} else {
+			if(month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12") {
+				maxDay = 31;
+			} else if(month == "2") {
+				maxDay = 28;
+			} else {
+				maxDay = 30;
+			}
+		}
+		return maxDay;
+	}
+	m = m - months;
+	if(m > 0) {
+		y = y + Math.floor(m / 12);
+		m = (m % 12) == 0 ? 12 : (m % 12);
+		y = (m % 12) == 0 ? (y - 1) : y;
+	} else {
+		m = Math.abs(m);
+		y = y - Math.floor(m / 12);
+		m = (m % 12) == 0 ? 12 : 12 - (m % 12);
+		y = (m % 12) == 0 ? (y - 1) : (y - Math.ceil(m / 12));
+	}
+	var maxDay = getMaxDays(y, m);
+	d = (d > maxDay ? maxDay : d);
+	return y + "-" + (m >= 10 ? m : "0" + m) + "-" + (d >= 10 ? d : "0" + d);
+}
+
 module.exports = {
 	isEmail, //邮箱
-	isChinese,//是否中文
+	isChinese, //是否中文
 	isMobile, //手机号码
 	isPhone, //电话号码
 	isURL,
@@ -1159,4 +1248,7 @@ module.exports = {
 	getDays, //获取一个月多少天
 	getDateMonthsToDate, //获取具体时间后几个月的时间
 	getArray, //根据传值获取对应的下标
+	getWeek, //根据日期字符串获取星期几
+	getBeforeOrAfterDay, //获取具体时间之后或者之前的几天日期
+	getBeforeMonthsToDate, //获取具体时间前几个月的时间
 }
