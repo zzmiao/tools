@@ -4,7 +4,7 @@
 module.exports = {
 
 	isEmail, //邮箱
-	isChinese,//是否中文
+	isChinese, //是否中文
 	isMobile, //手机号码
 	isPhone, //电话号码
 	isURL,
@@ -58,5 +58,8 @@ module.exports = {
 	getDays, //获取一个月多少天
 	getDateMonthsToDate, //获取具体时间后几个月的时间
 	getArray, //根据传值获取对应的下标
+	getWeek, //根据日期字符串获取星期几
+	getBeforeOrAfterDay, //获取具体时间之后或者之前的几天日期
+	getBeforeMonthsToDate, //获取具体时间前几个月的时间
 	
 }
